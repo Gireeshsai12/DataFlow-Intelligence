@@ -1,0 +1,5 @@
+check_name,failures
+Order precedes signup,0
+Session precedes signup,0
+Order missing line items,0
+Refund exceeds sales,0

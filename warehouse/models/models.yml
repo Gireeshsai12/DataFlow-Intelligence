@@ -1,0 +1,16 @@
+version: 2
+sources:
+  - name: public
+    schema: public
+    tables:
+      - name: order_facts
+        columns:
+          - name: id
+            data_tests: [not_null, unique]
+models:
+  - name: monthly_revenue
+    columns:
+      - name: month
+        data_tests: [not_null, unique]
+      - name: net_revenue_cents
+        data_tests: [not_null]

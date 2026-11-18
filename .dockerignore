@@ -1,0 +1,11 @@
+**/node_modules
+**/__pycache__
+**/dist
+**/.pytest_cache
+**/.venv
+.git
+reports
+warehouse/target
+warehouse/logs
+
+.env

@@ -1,0 +1,23 @@
+Date = CALENDAR(MIN(Revenue[month]), EOMONTH(MAX(Revenue[month]), 0))
+
+Net Revenue USD = DIVIDE(SUM(Revenue[net_revenue]), 100)
+
+Net Revenue Prior Month =
+    CALCULATE([Net Revenue USD], DATEADD('Date'[Date], -1, MONTH))
+
+Month-over-Month Growth =
+    DIVIDE([Net Revenue USD] - [Net Revenue Prior Month], [Net Revenue Prior Month])
+
+Net Revenue Prior Year =
+    CALCULATE([Net Revenue USD], DATEADD('Date'[Date], -1, YEAR))
+
+Year-over-Year Growth =
+    DIVIDE([Net Revenue USD] - [Net Revenue Prior Year], [Net Revenue Prior Year])
+
+Gross Revenue USD = DIVIDE(SUM(Summary[gross_revenue]), 100)
+
+Gross Margin = DIVIDE(SUM(Summary[gross_profit]), SUM(Summary[net_revenue]))
+
+Repeat Purchase Rate = DIVIDE(SUM(Segments[repeat_customers]), SUM(Segments[customers]))
+
+Conversion Rate = DIVIDE(SUM(Funnel[conversions]), SUM(Funnel[sessions]))

@@ -1,0 +1,12 @@
+dataflow:
+  target: postgres
+  outputs:
+    postgres:
+      type: postgres
+      host: "{{ env_var('DBT_HOST', '127.0.0.1') }}"
+      port: "{{ env_var('DBT_PORT', '5432') | int }}"
+      user: "{{ env_var('DBT_USER', 'dataflow') }}"
+      password: "{{ env_var('DBT_PASSWORD', 'dataflow') }}"
+      dbname: "{{ env_var('DBT_DATABASE', 'dataflow') }}"
+      schema: analytics
+      threads: 2
