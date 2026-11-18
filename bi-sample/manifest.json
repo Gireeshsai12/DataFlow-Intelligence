@@ -1,0 +1,35 @@
+{
+  "start": "2024-02-15",
+  "end": "2025-12-31",
+  "currency": "USD cents",
+  "synthetic": true,
+  "totals": {
+    "orders": 2500,
+    "net_cents": 137838595,
+    "profit_cents": 60096530,
+    "sales_cents": 141233165,
+    "refund_cents": 3394570,
+    "active_customers": 497,
+    "sessions": 6000,
+    "conversions": 662
+  },
+  "sha256": {
+    "Campaigns.csv": "b113b315d97c450e493d8da8a242d804ae5dc700c6f70fd4598fd2b64f3dfa68",
+    "Cohorts.csv": "d505db839794704bc7a631b93126d005371e1228b3dd2a1a11e4234da87792c0",
+    "DimCampaign.csv": "cfcd1d41681d2a9b6302f80bd47bc481e0529bbc6f30cd9cb4ebb40d24d52a14",
+    "DimCustomer.csv": "46bd559b0fdae2781977409ab54c87ac1a5e38dd22684d2d855b9bd86a155ea0",
+    "DimDate.csv": "9f45cc0dada3bd50bfc648b0f7729e5b4b233bd7178dd52111fc5d3d7377c813",
+    "DimProduct.csv": "df00a35692c82899bf1736d4ec2aa9e0fe6b864014287a2a8f71585f37722bc0",
+    "Experiment.csv": "2721ed5e7be701fd9429014f1dbcb9de9bec1ddcf4914e74c609cba39b1b2fea",
+    "ExperimentArms.csv": "872d9e7169c138c1994f0a14f067857c387fec2f664a9b63f6b33caf96c41ee0",
+    "FactOrder.csv": "5e87982404648b2eecb73a4de9d1f0c55435f7befe5536ae9fc77ff5c2deb74a",
+    "FactOrderLine.csv": "a189c8a333de45d419c3ba21cfe7ef1b456189ab222476e7165711cb7c641034",
+    "FactSession.csv": "87b8922edc8eaa6db26a129269bfdf7ee7ed33ad6ed0639e621e1ae70d2822e1",
+    "Funnel.csv": "74aa0124cf13bddf53ac978c1fc72badcd8f01952a3ea4ecbd70f6813f410fa8",
+    "Products.csv": "2312201cddffbf562716e8abb70a3f36246024bf62e3e62e263de26d7437593c",
+    "Quality.csv": "f58c65ac8ffec54d6aa2ef41f731cdb54bd41f3d4f7a84968c2845e13a6e710e",
+    "Revenue.csv": "6d010a1549c150a97a5ab89ac9e5a38d82187fe639e883ddc1a3627b2f71ca10",
+    "Segments.csv": "4e857de448d0ac1e84b69a99e99dee77b5eb4bc4f0d9310b4625df8fc4abf3c7",
+    "Summary.csv": "9bc24b0fbcd3d4ed0574d58583c8f3839a82eb9e35d449861f1bab2ce0f8333c"
+  }
+}

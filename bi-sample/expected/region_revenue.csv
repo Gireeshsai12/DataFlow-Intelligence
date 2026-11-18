@@ -1,0 +1,5 @@
+region,orders,active_customers,net_cents,profit_cents
+Midwest,704,130,39505180,17236464
+South,625,127,34207865,14859140
+West,608,125,32455399,14123540
+Northeast,563,115,31670151,13877386

@@ -9,3 +9,6 @@ warehouse/target
 warehouse/logs
 
 .env
+
+bi-output
+bi-sample

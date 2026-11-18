@@ -1,0 +1,43 @@
+Net Revenue = DIVIDE(SUM(FactOrder[net_cents]), 100)
+
+Gross Revenue = DIVIDE(SUM(FactOrder[gross_cents]), 100)
+
+Gross Profit = DIVIDE(SUM(FactOrder[profit_cents]), 100)
+
+Gross Margin = DIVIDE([Gross Profit], [Net Revenue])
+
+Orders = COUNTROWS(FactOrder)
+
+Average Order Value = DIVIDE([Net Revenue], [Orders])
+
+Active Customers = DISTINCTCOUNT(FactOrder[customer_id])
+
+Refund Rate = DIVIDE(SUM(FactOrder[refund_cents]), SUM(FactOrder[sales_cents]))
+
+Prior Month Revenue = CALCULATE([Net Revenue], DATEADD(DimDate[date_key], -1, MONTH))
+
+MoM Growth = DIVIDE([Net Revenue] - [Prior Month Revenue], [Prior Month Revenue])
+
+Prior Year Revenue = CALCULATE([Net Revenue], DATEADD(DimDate[date_key], -1, YEAR))
+
+YoY Growth = DIVIDE([Net Revenue] - [Prior Year Revenue], [Prior Year Revenue])
+
+Sessions = COUNTROWS(FactSession)
+
+Carts = SUM(FactSession[carts])
+
+Conversions = SUM(FactSession[conversions])
+
+Conversion Rate = DIVIDE([Conversions], [Sessions])
+
+Cart Abandonment Rate = DIVIDE([Carts] - [Conversions], [Carts])
+
+Line Sales Before Refunds = DIVIDE(SUM(FactOrderLine[sales_cents]), 100)
+
+Units Sold = SUM(FactOrderLine[quantity])
+
+Cohort Retention =
+    IF(HASONEVALUE(Cohorts[cohort]) && HASONEVALUE(Cohorts[activity_month]),
+        DIVIDE(SUM(Cohorts[retained]), MAX(Cohorts[cohort_size])))
+
+Snapshot Repeat Rate = DIVIDE(SUM(Segments[repeat_customers]), SUM(Segments[customers]))

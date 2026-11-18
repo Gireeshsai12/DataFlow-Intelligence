@@ -9,3 +9,5 @@ warehouse/logs
 
 .env
 warehouse/.user.yml
+
+bi-output/

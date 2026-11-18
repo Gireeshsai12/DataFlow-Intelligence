@@ -1,0 +1,2 @@
+control_sessions,treatment_sessions,control_rate_pct,treatment_rate_pct,effect_pp,relative_lift_pct,p_value,ci_low_pp,ci_high_pp,recommendation
+2884,3116,10.50624133148405,11.521181001283697,1.0149396697996471,9.660349860403242,0.20995075302404942,-0.569075524765146,2.5989548643644405,The test did not detect a difference at the 5% level.

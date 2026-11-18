@@ -16,6 +16,9 @@ jobs:
       - run: docker compose config -q
       - run: docker compose up --build --wait
       - run: python scripts/smoke.py
+      - run: python -m scripts.bi_exercises bi-sample
+      - run: docker compose exec -T app python -m app.bi export /tmp/dataflow-bi
+      - run: docker compose exec -T app python -m app.bi check /tmp/dataflow-bi
       - run: python -m playwright install --with-deps chromium
       - run: python scripts/browser_check.py
       - if: always()

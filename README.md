@@ -1,81 +1,49 @@
-# DataFlow Intelligence
+# DataFlow Intelligence BI Edition
 
-DataFlow Intelligence is a local revenue, customer analytics and business intelligence platform for NovaCart, a synthetic retailer. A repeatable Python pipeline loads PostgreSQL. FastAPI serves analytics and exports. A React and TypeScript dashboard presents the data in ten screens.
+Analyze revenue, customer retention, products and checkout experiments using the same synthetic NovaCart dataset across PostgreSQL, a React dashboard and an exportable business intelligence model.
 
-## Start the demo
+![DataFlow Intelligence dashboard](docs/dashboard.png)
 
-Install Docker Desktop on Windows or macOS, or Docker Engine with the Compose v2 plugin on Linux. Start Docker, extract the ZIP and open a terminal in the extracted DataFlow-Intelligence folder. The first build downloads container images and dependencies. No vendor account or API key is needed to run the demo.
+## Run on Windows
 
-```sh
-docker compose up --build
+Open Docker Desktop, extract this ZIP, and run from the extracted DataFlow-Intelligence-BI folder.
+
+```powershell
+docker compose up --build -d --wait
+docker compose exec -T app python scripts/smoke.py
+powershell -ExecutionPolicy Bypass -File .\bi-export.ps1
 ```
 
-Open the [dashboard](http://localhost:8000) or the [API reference](http://localhost:8000/docs) after the app starts. Port 8000 must be free. The startup scripts run detached and wait for service health.
+Open the [dashboard](http://localhost:8000) or [API reference](http://localhost:8000/docs). On Linux/macOS, run `sh bi-export.sh` for the final step. Docker is the only prerequisite for the web app and snapshot exporter. The default snapshot includes 2,500 orders, $1,378,385.95 net revenue, 497 active customers, and 6,000 checkout sessions. A prebuilt copy is in bi-sample.
 
-| Action | Windows PowerShell | macOS / Linux |
-|---|---|---|
-| Start | `powershell -ExecutionPolicy Bypass -File .\start-windows.ps1` | `sh ./start-unix.sh` |
-| Verify | `powershell -ExecutionPolicy Bypass -File .\verify-windows.ps1` | `sh ./verify.sh` |
-| Stop | `powershell -ExecutionPolicy Bypass -File .\stop-windows.ps1` | `sh ./stop-unix.sh` |
+If the earlier DataFlow release is already running, stop it with `docker compose down` from its original folder before starting this build. This edition has a separate Compose project name and volume. Both use host port 8000.
 
-Stopping the app preserves the demo database volume. The commands and app expect a dedicated demo database. The generator publishes a new synthetic snapshot and replaces the data in its own source tables. Regenerate the original snapshot and retain run history with:
+## Use the BI materials
 
-```sh
-docker compose exec app python -m app.pipeline --scale 1
-```
-
-Scale 1 generates 500 customers, 100 products, 2,500 orders, 6,000 website sessions and linked lines and refunds. Most dates span January 2024 through December 2025. Scale 100 targets 50,000 customers and 250,000 orders and needs substantially more memory. Scale 2 was exercised in the integration check.
-
-## Explore the demo
-
-1. Compare revenue, order count and active customers on Overview. Apply a date range to recalculate the report.
-2. Explore monthly growth, customer segments and retention cohorts. Marketing shows cart and purchase conversion alongside campaign attribution.
-3. Review the checkout experiment's estimated difference, confidence interval and p-value. Use the sample-size endpoint in the API reference to plan an experiment.
-4. Open Data Quality and Pipeline Monitoring to inspect publication results.
-5. Download a workbook or a CSV from Reports & Exports. A generated set is included in reports.
-
-## Native development
-
-Requires Python 3.12, Node.js 24, npm and a running PostgreSQL 18 server. Create a dedicated empty database named dataflow, or set DATABASE_URL to your dedicated database. Keep the database off public interfaces. Use a Python virtual environment.
-
-```sh
-python -m pip install -r requirements-dev.txt
-npm --prefix web ci
-npm --prefix web run build
-python -m uvicorn app.main:app --port 8000
-```
-
-Startup applies the SQL migration and loads the base dataset on a fresh database. Set DATABASE_URL if the connection differs from the development default `postgresql://dataflow:dataflow@localhost:5432/dataflow`. These defaults are for local development. The packaged Compose database has no published port.
-
-In a second terminal:
-
-```sh
-python -m pytest -q
-python scripts/smoke.py
-python -m playwright install chromium
-python scripts/browser_check.py
-dbt build --project-dir warehouse --profiles-dir warehouse
-```
-
-dbt reads DBT_HOST, DBT_PORT, DBT_USER, DBT_PASSWORD and DBT_DATABASE when set. It targets a reachable development database. The dashboard queries PostgreSQL directly and starts independently of dbt.
-
-## Refresh and schedule
-
-Use `python -m app.pipeline --scale 1` from the project directory with DATABASE_URL configured, or schedule the equivalent Compose command in cron or Windows Task Scheduler. Schedule one attempt per interval. If another run holds the lock, the CLI exits with an error and leaves the published data intact. Pipeline Monitoring exposes run outcomes.
-
-For HTTP refresh, set DATAFLOW_ADMIN_TOKEN in the application environment before launching. Send it in the Admin-Token header to `POST /api/v1/pipelines/refresh` with `{"scale":1}`. The endpoint is disabled when the token is unset. Refresh work runs in the application process and only one publisher holds the database lock at a time. HTTP acknowledgement indicates submission. Consult pipeline history for completed publications. This is a single-host demo. HTTPS, multi-tenant isolation and a durable worker queue are deployment concerns beyond this package.
-
-## Source map
-
-| Path | Contents |
+| Goal | Start here |
 |---|---|
-| app/ | FastAPI, dataset generator, publisher, SQL read models, statistical analysis, exports |
-| sql/ | PostgreSQL schema, indexes and order fact view |
-| web/ | Dashboard source, TypeScript settings and npm lockfile |
-| warehouse/ | dbt model and tests, optional Snowflake SQL |
-| tests/ and scripts/ | Unit, HTTP, integration, browser and benchmark checks |
-| reports/ | Generated Excel workbook and CSV data |
-| docs/ | Architecture, formulas, skill evidence and BI setup |
-| .github/workflows/ | Verification workflow definition |
+| Build a Power BI Desktop model and report | [M queries, DAX, relationships and five report layouts](bi/powerbi/README.md) |
+| Build a refreshable Excel workbook | [Excel for Windows generator with Power Query, PivotTable, slicer, XLOOKUP and chart](bi/excel/README.md) |
+| Validate Excel exports immediately | [Original generated Excel report](reports/NovaCart_Business_Analysis.xlsx) |
+| Use Google Sheets | [QUERY, ARRAYFORMULA and KPI exercise](bi/sheets/README.md) |
+| Practice cross-platform SQL | [SQL Server, Snowflake and BigQuery import exercises](bi/sql/README.md) |
+| Compare statistical tests | [SAS and SPSS checkout exercise](bi/statistics/README.md) |
+| Practice additional business tools | [Tableau, GA4, Salesforce, Power Apps and Power Automate exercises](bi/platforms/README.md) |
+| Present a business review | [PowerPoint business review](bi/case-study/NovaCart-Business-Review.pptx), [case study](bi-sample/BusinessReview.md) and [requirements and UAT](bi/case-study/Acceptance.md) |
+| Review evidence before updating a resume | [Skills and verification matrix](bi/SkillEvidence.md) |
 
-See [verification](VERIFICATION_REPORT.md), [architecture and formulas](docs/architecture.md), [BI setup](docs/bi/README.md) and [skill evidence](docs/skill-evidence.md).
+Desktop and hosted tools require the corresponding host or account. This ZIP contains the M and DAX source and a report build guide for Power BI. Excel automation is supplied as a PowerShell script. The verification report distinguishes tests performed locally from platform exercises.
+
+## Verify without desktop BI software
+
+With Python 3.12 and the project dependencies installed:
+
+```sh
+python -m pip install -r requirements.txt
+python -m app.bi check bi-sample
+python -m scripts.bi_exercises bi-sample
+```
+
+The BI exporter reads a single PostgreSQL snapshot, then independently loads the exported facts and dimensions into SQLite. It verifies primary keys, foreign keys, order and line totals, checkout integrity and snapshot checksums. The SQL labs compare revenue, region, products, cohorts and checkout against known outputs. Use `python -m scripts.bi_exercises bi-output --write` to produce a case study and refreshed expected results from a new export. Run `python -m scripts.bi_exercises bi-sample --postgres` with DATABASE_URL configured for the cross-engine checks.
+
+The [original project guide](ORIGINAL-README.md) covers native development, the dbt model, authentication for refreshing synthetic data, and the existing analytics pages. See [verification](BI-VERIFICATION.md) for the BI edition's test results.
